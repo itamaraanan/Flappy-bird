@@ -93,7 +93,7 @@ class Obstacles(pygame.sprite.Sprite):
 class Score(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__() 
-        
+
 
 def backgrounds_display(day,bg_day_surf,bg_night_surf):
     if(day):
@@ -227,11 +227,7 @@ while True:
             if keys[pygame.K_SPACE ]:
                 game_active = True
                 game_over_count+=1
-            
-
-                            
-
-
+#bio
     pygame.display.update()
     clock.tick(80)
 
