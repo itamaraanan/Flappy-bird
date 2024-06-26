@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains a Python implementation of the classic game Flappy Bird using the Pygame library. The game features a player-controlled bird that must navigate through gaps between pipes without colliding with them or the ground.
+This repository contains a Python implementation of the classic game Flappy Bird using the Pygame library. The game features a player-controlled bird that must navigate through gaps between pipes without colliding with them or the ground and floor.
 
 ## Features
 
