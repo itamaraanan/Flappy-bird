@@ -14,7 +14,7 @@ class Player():
         self.image = bird_1
         self.rect = self.image.get_rect(midbottom = (50,250))
         self.gravity =0
-        self.jump_sound = pygame.mixer.Sound('flap-101soundboards.mp3')
+        self.jump_sound = pygame.mixer.Sound('sounds/flap-101soundboards.mp3')
         self.jump_sound.set_volume(0.2)
    
 
@@ -59,14 +59,15 @@ class Player():
             self.image = pygame.image.load('graphics/bluebird-midflap.png')
     
     def player_collides_boundaries(self):
-        """gets self
+        """
+        gets self
 
         Returns:
             boolean : returns true if the player collides with the boundaries or false if not
         """
         if self.rect.y < 0 or self.rect.y > 360:
              #setting die sound
-            die_sound = pygame.mixer.Sound('flappy-bird-hit-sound-101soundboards.mp3')
+            die_sound = pygame.mixer.Sound('sounds/flappy-bird-hit-sound-101soundboards.mp3')
             die_sound.set_volume(0.2)
             die_sound.play()
             return False
@@ -77,11 +78,12 @@ class Player():
         """gets self
 
         Returns:
+
             boolean : returns false if the player collides with the obstacles or true if not
         """
         if player.rect.colliderect(obstacles_1_rect) or player.rect.colliderect(obstacles_2_rect):
             #setting die sound
-            die_sound = pygame.mixer.Sound('flappy-bird-hit-sound-101soundboards.mp3')
+            die_sound = pygame.mixer.Sound('sounds/flappy-bird-hit-sound-101soundboards.mp3')
             die_sound.set_volume(0.2)
             die_sound.play()
             return False
@@ -109,56 +111,94 @@ class Boundaries():
         self.floor2_rect.x -=1
 
         if self.floor1_rect.x  <= -335:
+            """Moves the floor back if its out of the screen
+            """
             self.floor1_rect.x = 335
 
         if self.floor2_rect.x  <= -335:
+            """Moves the floor back if its out of the screen
+            """
             self.floor2_rect.x = 335
 
 class Obstacles(pygame.sprite.Sprite):
+    """creates the obstacles class
+    """
     def __init__(self):
         super().__init__()
-        self.obstacle_1_image = pygame.image.load('pipe-green.png')
+        """loading the obstacles images and setting the a rectangle
+        """
+        self.obstacle_1_image = pygame.image.load('graphics/pipe-green.png')
         self.obstacle_1_rect = self.obstacle_1_image.get_rect(midleft = (200,425))
 
-        self.obstacle_2_image = pygame.image.load('pipe-green.png')
+        self.obstacle_2_image = pygame.image.load('graphics/pipe-green.png')
         self.obstacle_2_image = pygame.transform.rotate(self.obstacle_2_image,180)
         self.obstacle_2_rect = self.obstacle_2_image.get_rect(midleft = (200,-25))
 
     def obstacles_movement(self):
+        """moves the obstacles by one pixel 
+        """
         self.obstacle_1_rect.x -= 1
         self.obstacle_2_rect.x -= 1
 
         if self.obstacle_2_rect.x <= -60:
+            """moves the obstacles back to the screen if they are not in the frame
+            """
             self.obstacle_1_rect.x = 280
             self.obstacle_2_rect.x = 280
+            """adding a random number for the obstacles hight to make the game not repeat itself
+            """
             random_num = randint(-125,125)
 
             self.obstacle_1_rect.y = 275 + random_num
             self.obstacle_2_rect.y = -175 + random_num
     
 def score_calc(score):
+    """gets the score and adding to it if needed
+
+    Returns:
+        score
+    """
     if obstacles_1_rect.x == 30:
-        score_sound = pygame.mixer.Sound('point-101soundboards.mp3')
+        """adding to the score if the player jumped between 2 obstacles
+        """
+        score_sound = pygame.mixer.Sound('sounds/point-101soundboards.mp3')
+
+        """playing score adding sound
+        """
         score_sound.set_volume(0.2)
         score_sound.play()
+
+        """adding 1 to the score
+        """
         score = score + 1 
     return score
 
 def backgrounds_display(day,bg_day_surf,bg_night_surf):
-    if(day):
+    """changes the background depends on the time
+
+    Args:
+        day : a boolean that calculates if it is day or night
+        bg_day_surf : day background
+        bg_night_surf : night background
+
+    Returns:
+        returns correct background for the time
+    """
+
+    if(day):# if it is day
         return bg_day_surf
     else:  
         return bg_night_surf
 
 #game screen setup
-pygame.init()
-screen = pygame.display.set_mode((280, 500))
-pygame.display.set_caption('flappy bird')
-clock = pygame.time.Clock()
-game_active = False
-bg_timer = 1000
-sleep_count = 0
-bg_music = pygame.mixer.Sound('Theme For FlappyBird - Original Track.mp3')
+pygame.init() #initializing pygame
+screen = pygame.display.set_mode((280, 500)) #setting a new screen for display
+pygame.display.set_caption('flappy bird') #naming the game  "Flappy bird"
+clock = pygame.time.Clock() #setting a new clock
+game_active = False #setting a boolean that depends on if the game is active or not 
+bg_timer = 1000 #setting a timer that switch the day to night and the opposite
+sleep_count = 0 
+bg_music = pygame.mixer.Sound('sounds/Theme For FlappyBird - Original Track.mp3')
 bg_music.set_volume(0.1)
 bg_music.play(loops= -1)
 player = Player()
@@ -198,7 +238,7 @@ boundaries = Boundaries()
 player_rect = player.rect
 
 #score counter
-font = pygame.font.Font('Pixeltype.ttf', 50)
+font = pygame.font.Font('font/Pixeltype.ttf', 50)
 score = 0
 
 
