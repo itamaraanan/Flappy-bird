@@ -3,9 +3,11 @@ from sys import exit
 import time
 from random import randint
 
-class Player(pygame.sprite.Sprite):
+class Player():
     def __init__(self):
+   
         super().__init__()
+
         bird_1 = pygame.image.load('graphics/bluebird-downflap.png')
 
         self.animation_index = 0
@@ -14,20 +16,36 @@ class Player(pygame.sprite.Sprite):
         self.gravity =0
         self.jump_sound = pygame.mixer.Sound('flap-101soundboards.mp3')
         self.jump_sound.set_volume(0.2)
+   
 
     def player_input(self,space_pressed, space_handled):
-         
-         if space_pressed and not space_handled:
+        """ 
+            gets the booleans space pressed and space handled
+            if space is pressed but not handled the player jumps
+
+        """
+        if space_pressed and not space_handled:
             space_handled = True
             self.gravity =-5
             self.jump_sound.play()
 
 
     def player_gravity(self):
+
+        """
+            increasing the players gravity
+
+        """
         self.gravity += 0.2
         self.rect.y += self.gravity 
     
     def player_animation(self):
+        
+
+        """
+            changing the player animation by using modulo for cretin time
+
+        """
         if player.animation_index%20 <5  :
             self.image = pygame.image.load('graphics/bluebird-downflap.png')
 
@@ -41,6 +59,11 @@ class Player(pygame.sprite.Sprite):
             self.image = pygame.image.load('graphics/bluebird-midflap.png')
     
     def player_collides_boundaries(self):
+        """gets self
+
+        Returns:
+            boolean : returns true if the player collides with the boundaries or false if not
+        """
         if self.rect.y < 0 or self.rect.y > 360:
              #setting die sound
             die_sound = pygame.mixer.Sound('flappy-bird-hit-sound-101soundboards.mp3')
@@ -51,8 +74,13 @@ class Player(pygame.sprite.Sprite):
             return True
     
     def player_collides_obstacles(self):
+        """gets self
+
+        Returns:
+            boolean : returns false if the player collides with the obstacles or true if not
+        """
         if player.rect.colliderect(obstacles_1_rect) or player.rect.colliderect(obstacles_2_rect):
-             #setting die sound
+            #setting die sound
             die_sound = pygame.mixer.Sound('flappy-bird-hit-sound-101soundboards.mp3')
             die_sound.set_volume(0.2)
             die_sound.play()
@@ -73,6 +101,10 @@ class Boundaries():
         self.floor2_rect = self.floor2_image.get_rect(bottomleft = (335,500))
     
     def boundaries_movement(self):
+        """
+            Moves the floor by one pixel for movement illusion
+
+        """
         self.floor1_rect.x -= 1
         self.floor2_rect.x -=1
 
