@@ -24,12 +24,18 @@ git clone <repository-url>
 ```
    
 2. Install Pygame if not already installed:
+ ```bash
+pip install pygame
+```
 
 ## Usage
 
 1. Run the game:
+ ```bash
+python flappy_bird.py
+```
 
-2. Instructions:
+3. Instructions:
 - Press the spacebar to make the bird flap and ascend.
 - Avoid colliding with the pipes or ground.
 - Navigate through the gaps to score points.
