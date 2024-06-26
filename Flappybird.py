@@ -9,11 +9,10 @@ class Player():
         super().__init__()
 
         bird_1 = pygame.image.load('graphics/bluebird-downflap.png')
-
-        self.animation_index = 0
+        self.animation_index = 0 #resting the animation index 
         self.image = bird_1
         self.rect = self.image.get_rect(midbottom = (50,250))
-        self.gravity =0
+        self.gravity =0 #resting the gravity
         self.jump_sound = pygame.mixer.Sound('sounds/flap-101soundboards.mp3')
         self.jump_sound.set_volume(0.2)
    
@@ -60,10 +59,7 @@ class Player():
     
     def player_collides_boundaries(self):
         """
-        gets self
-
-        Returns:
-            boolean : returns true if the player collides with the boundaries or false if not
+        returns true if the player collides with the boundaries or false if not
         """
         if self.rect.y < 0 or self.rect.y > 360:
              #setting die sound
@@ -75,11 +71,8 @@ class Player():
             return True
     
     def player_collides_obstacles(self):
-        """gets self
-
-        Returns:
-
-            boolean : returns false if the player collides with the obstacles or true if not
+        """
+        returns false if the player collides with the obstacles or true if not
         """
         if player.rect.colliderect(obstacles_1_rect) or player.rect.colliderect(obstacles_2_rect):
             #setting die sound
@@ -197,10 +190,9 @@ pygame.display.set_caption('flappy bird') #naming the game  "Flappy bird"
 clock = pygame.time.Clock() #setting a new clock
 game_active = False #setting a boolean that depends on if the game is active or not 
 bg_timer = 1000 #setting a timer that switch the day to night and the opposite
-sleep_count = 0 
-bg_music = pygame.mixer.Sound('sounds/Theme For FlappyBird - Original Track.mp3')
+bg_music = pygame.mixer.Sound('sounds/Theme For FlappyBird - Original Track.mp3') #background music
 bg_music.set_volume(0.1)
-bg_music.play(loops= -1)
+bg_music.play(loops= -1) #looping the music
 player = Player()
 
 
@@ -217,8 +209,7 @@ game_over_surf = pygame.image.load('graphics/gameover.png')
 game_over_rect = game_over_surf.get_rect(center  = (140, 80))
 message_surf = pygame.image.load('graphics/message.png')
 message_rect = message_surf.get_rect(center = (140,250))
-sleep_count =0
-game_over_count =0
+game_over_count =0 #creating a new boolean that count the times the game was played to show the correct starting message
 
 
 #backgrounds     
@@ -243,6 +234,7 @@ score = 0
 
 
 while True:
+    #starting the game until X mark is pressed
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -253,7 +245,9 @@ while True:
         # background control
         screen.blit(current_bg,(0,0))
         bg_timer -= 1
+
         if(bg_timer <= 0):
+            #choosing a background depends on the time
             if bg_count%2 == 0 :
                 day = True
                 bg_timer =2000
@@ -279,8 +273,12 @@ while True:
         boundaries2_surf = boundaries.floor2_image
         boundaries2_rect = boundaries.floor2_rect
         boundaries.boundaries_movement()
+
         #player display and logics
+
         keys = pygame.key.get_pressed()
+
+        #making sure player cant hold the space bar to jump
         if keys[pygame.K_SPACE]:
             if not space_pressed:
                 space_pressed = True
@@ -293,8 +291,9 @@ while True:
 
         player.player_input(space_pressed,space_handled)
         player.player_gravity()  
-        player.animation_index += 1
+        player.animation_index += 1 #adding 1 to the animation index to make the player animate
         player.player_animation()
+        #stopping the game if the player did not touch the obstacles or boundaries
         game_active = player.player_collides_boundaries() and player.player_collides_obstacles()
         
         player_surf = player.image
@@ -312,35 +311,40 @@ while True:
         screen.blit(player_surf, player_rect) 
         screen.blit(score_surf,score_rect)
 
-        #setting making the bird sleep for one seconde in the seconde screen
-        sleep_count =0
-
     else:
 
-        #setting up the display
-        if game_over_count != 0:
-            if sleep_count == 0 :
-                time.sleep(1)
-            sleep_count+= 1
+        #setting up the display depends if the game was played more than once 
+
+        if game_over_count != 0: #if it was:
+            
+            #resting the game
             player_rect.y = 250
             obstacles_1_rect.x = 200
             obstacles_2_rect.x = 200
-
+            
+            #creating a game over message
             screen.fill("beige")
+
+            #displaying the score
             score_message_surf = font.render("your score: " + str(score), None, 'Black')
             score_message_rect = score_message_surf.get_rect(center =(140,400))
+
+            #displaying everything on the screen
             screen.blit(game_over_surf,game_over_rect)
             screen.blit(message_surf,message_rect)
             screen.blit(score_message_surf,score_message_rect)
 
             
-            #returning if space was pressed
+            #returning if space was pressed to start again the game
             keys = pygame.key.get_pressed()
+
             if keys[pygame.K_SPACE ]:
                 score = 0
                 game_active = True
-        else:
-            sleep_count+= 1
+
+        else:#if it wasn't:
+
+            #showing the same message but without score and game over texts
             player_rect.y = 250
             screen.fill("beige")
             screen.blit(message_surf,message_rect)
@@ -348,9 +352,9 @@ while True:
             #returning if space was pressed
             keys = pygame.key.get_pressed()
             if keys[pygame.K_SPACE ]:
-                game_active = True
-                game_over_count+=1
-                            
+                game_active = True #starting again the game
+                game_over_count+=1 # making sure that the game was played more than once to show the correct starting message
+
     pygame.display.update()
     clock.tick(90)
 
