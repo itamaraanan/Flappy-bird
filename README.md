@@ -19,8 +19,11 @@ This repository contains a Python implementation of the classic game Flappy Bird
 ## Installation
 
 1. Clone the repository:
+```bash
+git clone <repository-url>
+
    
-3. Install Pygame if not already installed:
+2. Install Pygame if not already installed:
 
 ## Usage
 
