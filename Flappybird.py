@@ -60,14 +60,7 @@ class Player(pygame.sprite.Sprite):
         else:
             return True
     
-def background_music():
-    random_int = randint(1,2)
-    if(random_int == 1):
-        return pygame.mixer.Sound('Not Like Us (320).mp3')
-    if(random_int == 2):
-        return pygame.mixer.Sound('BBL Drizzy by Metro Boomin (Drake Diss) (Lyrics) (320).mp3')
-    
-class Boundaries(pygame.sprite.Sprite):
+class Boundaries():
     def __init__(self):
         super().__init__()
         
@@ -103,7 +96,7 @@ class Obstacles(pygame.sprite.Sprite):
         self.obstacle_1_rect.x -= 1
         self.obstacle_2_rect.x -= 1
 
-        if self.obstacle_2_rect.x <= -60 :
+        if self.obstacle_2_rect.x <= -60:
             self.obstacle_1_rect.x = 280
             self.obstacle_2_rect.x = 280
             random_num = randint(-125,125)
@@ -133,7 +126,7 @@ clock = pygame.time.Clock()
 game_active = False
 bg_timer = 1000
 sleep_count = 0
-bg_music = background_music()
+bg_music = pygame.mixer.Sound('Theme For FlappyBird - Original Track.mp3')
 bg_music.set_volume(0.1)
 bg_music.play(loops= -1)
 player = Player()
@@ -199,7 +192,8 @@ while True:
                 bg_timer =2000
                 bg_count += 1
                 current_bg = backgrounds_display(day,bg_day_surf,bg_night_surf)
-        
+
+
         #obstacles display and logic
         obstacles.obstacles_movement()
         screen.blit(obstacles_1_surf,obstacles_1_rect)
@@ -212,9 +206,7 @@ while True:
 
         boundaries2_surf = boundaries.floor2_image
         boundaries2_rect = boundaries.floor2_rect
-
         boundaries.boundaries_movement()
-
         #player display and logics
         keys = pygame.key.get_pressed()
         if keys[pygame.K_SPACE]:
